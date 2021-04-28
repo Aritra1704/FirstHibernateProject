@@ -1,5 +1,7 @@
 package org.javabrains.arpaul.dto;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,6 +23,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 @Entity
 //@Entity (name="USER_DETAILS")
@@ -51,7 +57,11 @@ public class UserDetails {
 	private String description;
 	@ElementCollection	// Informs hibernate to save this collection
 	@JoinTable(name="USER_ADDRESS", joinColumns=@JoinColumn(name="USER_ID"))
-	private Set<Address> listOfAddress = new HashSet<>();
+	@GenericGenerator(name = "my-generator", strategy = "increment")// hilo is a type of generator which hibernate provides
+	@CollectionId(columns = { @Column(name="ADDRESS_ID") }, generator = "my-generator", type = @Type(type="long"))// defines this list needs an identifier
+	private Collection<Address> listOfAddress = new ArrayList<>();// In order to use a list of object as member variable arraylist is required
+//	private Set<Address> listOfAddress = new HashSet<>();
+
 	public int getUserId() {
 		return userId;
 	}
@@ -88,10 +98,10 @@ public class UserDetails {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Set<Address> getListOfAddress() {
+	public Collection<Address> getListOfAddress() {
 		return listOfAddress;
 	}
-	public void setListOfAddress(Set<Address> listOfAddress) {
+	public void setListOfAddress(Collection<Address> listOfAddress) {
 		this.listOfAddress = listOfAddress;
 	}
 	
