@@ -1,14 +1,21 @@
 package org.javabrains.arpaul.dto;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,8 +27,8 @@ import javax.persistence.Transient;
 @Table (name="USER_DETAILS")
 public class UserDetails {
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Id	// Cannot be used if id is a object, need to use @EmbeddedId
+	@GeneratedValue(strategy=GenerationType.AUTO)	// Cannot be used if id is a object, need to use @EmbeddedId
 	@Column(name="USER_ID")
 	private int userId;
 //	@Column(name="USER_NAME")
@@ -31,10 +38,20 @@ public class UserDetails {
 	@Temporal(TemporalType.DATE) // Used to specify which date format to use while accessing the db table
 	private Date joinedDate;
 	@Embedded //This also explains if this object is embedded. Not necessary if already object is declared as Embeddable.
-	private Address address;
+	@AttributeOverrides({ // Allows to override multiple instances of embedded object
+		@AttributeOverride (name="street", column=@Column(name="HOME_STREET_NAME")), // Overrides one instance of embedded object
+		@AttributeOverride (name="city", column=@Column(name="HOME_CITY_NAME")),
+		@AttributeOverride (name="state", column=@Column(name="HOME_STATE_NAME")),
+		@AttributeOverride (name="pincode", column=@Column(name="HOME_PIN_CODE"))
+	})
+	private Address homeAddress;
+	@Embedded 
+	private Address officeAddress;
 	@Lob	// Used to specify a large object if assigned on top of a String then its considered as COB Char Object if above a byte then considered as BLOB
 	private String description;
-	
+	@ElementCollection	// Informs hibernate to save this collection
+	@JoinTable(name="USER_ADDRESS", joinColumns=@JoinColumn(name="USER_ID"))
+	private Set<Address> listOfAddress = new HashSet<>();
 	public int getUserId() {
 		return userId;
 	}
@@ -47,18 +64,23 @@ public class UserDetails {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
 	public Date getJoinedDate() {
 		return joinedDate;
 	}
 	public void setJoinedDate(Date joinedDate) {
 		this.joinedDate = joinedDate;
 	}
-	public Address getAddress() {
-		return address;
+	public Address getHomeAddress() {
+		return homeAddress;
 	}
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setHomeAddress(Address homeAddress) {
+		this.homeAddress = homeAddress;
+	}
+	public Address getOfficeAddress() {
+		return officeAddress;
+	}
+	public void setOfficeAddress(Address officeAddress) {
+		this.officeAddress = officeAddress;
 	}
 	public String getDescription() {
 		return description;
@@ -66,10 +88,11 @@ public class UserDetails {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	@Override
-	public String toString() {
-		return "UserDetails [userId=" + userId + ", userName=" + userName + ", joinedDate=" + joinedDate + ", address="
-				+ address + ", description=" + description + "]";
+	public Set<Address> getListOfAddress() {
+		return listOfAddress;
+	}
+	public void setListOfAddress(Set<Address> listOfAddress) {
+		this.listOfAddress = listOfAddress;
 	}
 	
 	
