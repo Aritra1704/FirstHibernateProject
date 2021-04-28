@@ -4,7 +4,10 @@ import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -18,6 +21,7 @@ import javax.persistence.Transient;
 public class UserDetails {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="USER_ID")
 	private int userId;
 //	@Column(name="USER_NAME")
@@ -26,7 +30,8 @@ public class UserDetails {
 	private String userName;
 	@Temporal(TemporalType.DATE) // Used to specify which date format to use while accessing the db table
 	private Date joinedDate;
-	private String address;
+	@Embedded //This also explains if this object is embedded. Not necessary if already object is declared as Embeddable.
+	private Address address;
 	@Lob	// Used to specify a large object if assigned on top of a String then its considered as COB Char Object if above a byte then considered as BLOB
 	private String description;
 	
@@ -49,10 +54,10 @@ public class UserDetails {
 	public void setJoinedDate(Date joinedDate) {
 		this.joinedDate = joinedDate;
 	}
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 	public String getDescription() {
