@@ -16,16 +16,16 @@ public class HibernateTest {
 	public static void main(String[] args) {
 		UserDetails user = new UserDetails();
 		user.setUserName("Aritra");
-		Address homeAddress = new Address();
-		homeAddress.setState("West bengal");
-		homeAddress.setCity("Kolkata");
-		user.setHomeAddress(homeAddress);
-		Address officeAddress = new Address();
-		officeAddress.setState("Telengana");
-		officeAddress.setCity("Hyderabad");
-		user.setOfficeAddress(officeAddress);
-		user.setJoinedDate(new Date());
-		user.setDescription("Description of th user goes here.");
+//		Address homeAddress = new Address();
+//		homeAddress.setState("West bengal");
+//		homeAddress.setCity("Kolkata");
+//		user.setHomeAddress(homeAddress);
+//		Address officeAddress = new Address();
+//		officeAddress.setState("Telengana");
+//		officeAddress.setCity("Hyderabad");
+//		user.setOfficeAddress(officeAddress);
+//		user.setJoinedDate(new Date());
+//		user.setDescription("Description of th user goes here.");
 		
 //		Address address1 = new Address();
 //		address1.setState("List State 1");
@@ -49,8 +49,8 @@ public class HibernateTest {
 //		user.setVehicle(vehicle);
 		user.getVehicle().add(vehicle);
 		user.getVehicle().add(vehicle2);
-		vehicle.setUser(user);
-		vehicle2.setUser(user);
+		vehicle.getUser().add(user);
+		vehicle2.getUser().add(user);
 
 		SessionFactory  sessionFactory = new Configuration().configure().buildSessionFactory();
 		Session session = sessionFactory.openSession();
