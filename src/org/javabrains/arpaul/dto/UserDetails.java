@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -55,12 +56,20 @@ public class UserDetails {
 	private Address officeAddress;
 	@Lob	// Used to specify a large object if assigned on top of a String then its considered as COB Char Object if above a byte then considered as BLOB
 	private String description;
-	@ElementCollection	// Informs hibernate to save this collection
-	@JoinTable(name="USER_ADDRESS", joinColumns=@JoinColumn(name="USER_ID"))
-	@GenericGenerator(name = "my-generator", strategy = "increment")// hilo is a type of generator which hibernate provides
-	@CollectionId(columns = { @Column(name="ADDRESS_ID") }, generator = "my-generator", type = @Type(type="long"))// defines this list needs an identifier
-	private Collection<Address> listOfAddress = new ArrayList<>();// In order to use a list of object as member variable arraylist is required
+//	@ElementCollection	// Informs hibernate to save this collection
+//	@JoinTable(name="USER_ADDRESS", joinColumns=@JoinColumn(name="USER_ID"))
+//	@GenericGenerator(name = "my-generator", strategy = "increment")// hilo is a type of generator which hibernate provides
+//	@CollectionId(columns = { @Column(name="ADDRESS_ID") }, generator = "my-generator", type = @Type(type="long"))// defines this list needs an identifier
+//	private Collection<Address> listOfAddress = new ArrayList<>();// In order to use a list of object as member variable arraylist is required
+	
+//	@ElementCollection	// Informs hibernate to save this collection
+//	@JoinTable(name="USER_ADDRESS", joinColumns=@JoinColumn(name="USER_ID"))
 //	private Set<Address> listOfAddress = new HashSet<>();
+	
+	// If fetchtype is eager then data will be fetched at the time of parent class, and session can be closed before this is called
+	@ElementCollection(fetch=FetchType.EAGER)	// Informs hibernate to save this collection
+	@JoinTable(name="USER_ADDRESS", joinColumns=@JoinColumn(name="USER_ID"))
+	private Collection<Address> listOfAddress = new ArrayList<>();
 
 	public int getUserId() {
 		return userId;

@@ -54,6 +54,8 @@ public class HibernateTest {
 		session.beginTransaction();
 		user = (UserDetails) session.get(UserDetails.class, 1);
 		System.out.println("User name retrieved >> " + user.getUserName());
+		session.close();// If session is closed before fetching collection then fetchtype needs to be eager
+		System.out.println("User List of Addresses >> " + user.getListOfAddress().size());
 	}
 
 }
