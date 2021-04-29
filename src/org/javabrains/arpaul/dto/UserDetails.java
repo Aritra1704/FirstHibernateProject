@@ -20,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -67,10 +68,13 @@ public class UserDetails {
 //	private Set<Address> listOfAddress = new HashSet<>();
 	
 	// If fetchtype is eager then data will be fetched at the time of parent class, and session can be closed before this is called
-	@ElementCollection(fetch=FetchType.EAGER)	// Informs hibernate to save this collection
-	@JoinTable(name="USER_ADDRESS", joinColumns=@JoinColumn(name="USER_ID"))
-	private Collection<Address> listOfAddress = new ArrayList<>();
-
+//	@ElementCollection(fetch=FetchType.EAGER)	// Informs hibernate to save this collection
+//	@JoinTable(name="USER_ADDRESS", joinColumns=@JoinColumn(name="USER_ID"))
+//	private Collection<Address> listOfAddress = new ArrayList<>();
+	@OneToOne
+	@JoinColumn(name="VEHICLE_ID")
+	private Vehicle vehicle;
+	
 	public int getUserId() {
 		return userId;
 	}
@@ -107,11 +111,17 @@ public class UserDetails {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Collection<Address> getListOfAddress() {
-		return listOfAddress;
+//	public Collection<Address> getListOfAddress() {
+//		return listOfAddress;
+//	}
+//	public void setListOfAddress(Collection<Address> listOfAddress) {
+//		this.listOfAddress = listOfAddress;
+//	}
+	public Vehicle getVehicle() {
+		return vehicle;
 	}
-	public void setListOfAddress(Collection<Address> listOfAddress) {
-		this.listOfAddress = listOfAddress;
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
 	}
 	
 	

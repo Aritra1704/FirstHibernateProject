@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.javabrains.arpaul.dto.Address;
 import org.javabrains.arpaul.dto.UserDetails;
+import org.javabrains.arpaul.dto.Vehicle;
 
 public class HibernateTest {
 
@@ -26,25 +27,30 @@ public class HibernateTest {
 		user.setJoinedDate(new Date());
 		user.setDescription("Description of th user goes here.");
 		
-		Address address1 = new Address();
-		address1.setState("List State 1");
-		address1.setCity("List City 1");
-		address1.setStreet("List Street 1");
-		address1.setPincode("List Pincode 1");
+//		Address address1 = new Address();
+//		address1.setState("List State 1");
+//		address1.setCity("List City 1");
+//		address1.setStreet("List Street 1");
+//		address1.setPincode("List Pincode 1");
+//		
+//		Address address2 = new Address();
+//		address2.setState("List State 2");
+//		address2.setCity("List City 2");
+//		address2.setStreet("List Street 2");
+//		address2.setPincode("List Pincode 2");
+//		
+//		user.getListOfAddress().add(address1);
+//		user.getListOfAddress().add(address2);
 		
-		Address address2 = new Address();
-		address2.setState("List State 2");
-		address2.setCity("List City 2");
-		address2.setStreet("List Street 2");
-		address2.setPincode("List Pincode 2");
-		
-		user.getListOfAddress().add(address1);
-		user.getListOfAddress().add(address2);
+		Vehicle vehicle = new Vehicle();
+		vehicle.setVehicleName("Bike");
+		user.setVehicle(vehicle);
 
 		SessionFactory  sessionFactory = new Configuration().configure().buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		session.save(user);
+		session.save(vehicle);
 		session.getTransaction().commit();
 		
 		session.close();
@@ -55,7 +61,7 @@ public class HibernateTest {
 		user = (UserDetails) session.get(UserDetails.class, 1);
 		System.out.println("User name retrieved >> " + user.getUserName());
 		session.close();// If session is closed before fetching collection then fetchtype needs to be eager
-		System.out.println("User List of Addresses >> " + user.getListOfAddress().size());
+//		System.out.println("User List of Addresses >> " + user.getListOfAddress().size());
 	}
 
 }
