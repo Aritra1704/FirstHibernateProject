@@ -37,6 +37,8 @@
         <!-- Names the annotated entity class -->
         <mapping class="org.javabrains.arpaul.dto.UserDetails" />
         <mapping class="org.javabrains.arpaul.dto.Vehicle" />
+        <mapping class="org.javabrains.arpaul.dto.TwoWheeler" />
+        <mapping class="org.javabrains.arpaul.dto.FourWheeler" />
 
     </session-factory>
 

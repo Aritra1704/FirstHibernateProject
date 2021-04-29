@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.javabrains.arpaul.dto.Address;
+import org.javabrains.arpaul.dto.FourWheeler;
+import org.javabrains.arpaul.dto.TwoWheeler;
 import org.javabrains.arpaul.dto.UserDetails;
 import org.javabrains.arpaul.dto.Vehicle;
 
@@ -42,34 +44,47 @@ public class HibernateTest {
 //		user.getListOfAddress().add(address1);
 //		user.getListOfAddress().add(address2);
 		
-		Vehicle vehicle = new Vehicle();
-		vehicle.setVehicleName("Bike");
-		Vehicle vehicle2 = new Vehicle();
-		vehicle2.setVehicleName("Car");
+//		Vehicle vehicle = new Vehicle();
+//		vehicle.setVehicleName("Bike");
+		
 //		user.setVehicle(vehicle);
-		user.getVehicle().add(vehicle);
-		user.getVehicle().add(vehicle2);
+//		user.getVehicle().add(vehicle);
+//		user.getVehicle().add(vehicle2);
 //		vehicle.getUser().add(user);
 //		vehicle2.getUser().add(user);
 
+		
+		Vehicle vehicle = new Vehicle();
+		vehicle.setVehicleName("Vehicle");
+		TwoWheeler bike = new TwoWheeler();
+		bike.setVehicleName("Bike");
+		bike.setSterringHandle("Steering handle");
+		
+		FourWheeler fourWheeler = new FourWheeler();
+		fourWheeler.setVehicleName("Car");
+		fourWheeler.setSteeringWheel("Steering wheel");
 		SessionFactory  sessionFactory = new Configuration().configure().buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		session.persist(user);// Cascade effect
+//		session.persist(user);// Cascade effect
 
 		//		session.save(user);
 //		session.save(vehicle);
 //		session.save(vehicle2);
+		
+		session.save(vehicle);
+		session.save(bike);
+		session.save(fourWheeler);
 		session.getTransaction().commit();
 		
 		session.close();
 		
-		user = null;
-		session = sessionFactory.openSession();
-		session.beginTransaction();
-		user = (UserDetails) session.get(UserDetails.class, 1);
-		System.out.println("User name retrieved >> " + user.getUserName());
-		session.close();// If session is closed before fetching collection then fetchtype needs to be eager
+//		user = null;
+//		session = sessionFactory.openSession();
+//		session.beginTransaction();
+//		user = (UserDetails) session.get(UserDetails.class, 1);
+//		System.out.println("User name retrieved >> " + user.getUserName());
+//		session.close();// If session is closed before fetching collection then fetchtype needs to be eager
 //		System.out.println("User List of Addresses >> " + user.getListOfAddress().size());
 	}
 

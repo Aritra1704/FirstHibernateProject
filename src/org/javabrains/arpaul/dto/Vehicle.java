@@ -28,9 +28,9 @@ public class Vehicle {
 //	@ManyToMany(mappedBy="vehicle")
 //	private Collection<UserDetails> user = new ArrayList<UserDetails>();
 	
-	@ManyToOne
-	@NotFound(action=NotFoundAction.IGNORE)
-	private UserDetails user;
+//	@ManyToOne
+//	@NotFound(action=NotFoundAction.IGNORE)
+//	private UserDetails user;
 	
 	public int getVehicleId() {
 		return vehicleId;
@@ -44,12 +44,12 @@ public class Vehicle {
 	public void setVehicleName(String vehicleName) {
 		this.vehicleName = vehicleName;
 	}
-	public UserDetails getUser() {
-		return user;
-	}
-	public void setUser(UserDetails user) {
-		this.user = user;
-	}
+//	public UserDetails getUser() {
+//		return user;
+//	}
+//	public void setUser(UserDetails user) {
+//		this.user = user;
+//	}
 	
 	
 }
