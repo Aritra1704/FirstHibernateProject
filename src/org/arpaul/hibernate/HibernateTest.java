@@ -49,15 +49,17 @@ public class HibernateTest {
 //		user.setVehicle(vehicle);
 		user.getVehicle().add(vehicle);
 		user.getVehicle().add(vehicle2);
-		vehicle.getUser().add(user);
-		vehicle2.getUser().add(user);
+//		vehicle.getUser().add(user);
+//		vehicle2.getUser().add(user);
 
 		SessionFactory  sessionFactory = new Configuration().configure().buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		session.save(user);
-		session.save(vehicle);
-		session.save(vehicle2);
+		session.persist(user);// Cascade effect
+
+		//		session.save(user);
+//		session.save(vehicle);
+//		session.save(vehicle2);
 		session.getTransaction().commit();
 		
 		session.close();

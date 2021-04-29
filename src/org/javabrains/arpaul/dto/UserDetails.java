@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
@@ -83,7 +84,9 @@ public class UserDetails {
 //		inverseJoinColumns=@JoinColumn(name="VEHICLE_ID"))
 //	private Collection<Vehicle> vehicle = new ArrayList<>();// Either use Many to One is parent class or here
 //	@ManyToMany(mappedBy="user")
-	@ManyToMany
+//	@ManyToMany
+//	private Collection<Vehicle> vehicle = new ArrayList<>();
+	@OneToMany(cascade=CascadeType.ALL)	// Cascade effect PERSIST = addition, REMOVE = delete
 	private Collection<Vehicle> vehicle = new ArrayList<>();
 	public int getUserId() {
 		return userId;
