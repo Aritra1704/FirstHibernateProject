@@ -18,11 +18,12 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 @Entity
-//@Inheritance(strategy=InheritanceType.SINGLE_TABLE)	// Single table inhertance strategy
+//@Inheritance(strategy=InheritanceType.SINGLE_TABLE)	// Single table inhertance strategy, all child entities will be added to parent entity
 //@DiscriminatorColumn(
 //		name="VEHICLE_TYPE", 
 //		discriminatorType=DiscriminatorType.STRING) // Only needed for Single table inheritance
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS) // Multiple table for each and every entity(child entities also has it's table)
+@Inheritance(strategy=InheritanceType.JOINED) // Creates multiple table for all entities but the inherited values stays in parent table only, need to join query to check all data
 public class Vehicle {
 
 	@Id @GeneratedValue
