@@ -4,7 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("Bike")
+//@DiscriminatorValue("Bike")// Only needed for Single table inheritance
 public class TwoWheeler extends Vehicle {
 
 	private String sterringHandle;
