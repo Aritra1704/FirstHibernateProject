@@ -16,8 +16,8 @@ import org.javabrains.arpaul.dto.Vehicle;
 public class HibernateTest {
 
 	public static void main(String[] args) {
-		UserDetails user = new UserDetails();
-		user.setUserName("Aritra");
+//		UserDetails user = new UserDetails();
+//		user.setUserName("Aritra");
 //		Address homeAddress = new Address();
 //		homeAddress.setState("West bengal");
 //		homeAddress.setCity("Kolkata");
@@ -54,15 +54,17 @@ public class HibernateTest {
 //		vehicle2.getUser().add(user);
 
 		
-		Vehicle vehicle = new Vehicle();
-		vehicle.setVehicleName("Vehicle");
-		TwoWheeler bike = new TwoWheeler();
-		bike.setVehicleName("Bike");
-		bike.setSterringHandle("Steering handle");
+//		Vehicle vehicle = new Vehicle();
+//		vehicle.setVehicleName("Vehicle");
+//		TwoWheeler bike = new TwoWheeler();
+//		bike.setVehicleName("Bike");
+//		bike.setSterringHandle("Steering handle");
+//		
+//		FourWheeler fourWheeler = new FourWheeler();
+//		fourWheeler.setVehicleName("Car");
+//		fourWheeler.setSteeringWheel("Steering wheel");
 		
-		FourWheeler fourWheeler = new FourWheeler();
-		fourWheeler.setVehicleName("Car");
-		fourWheeler.setSteeringWheel("Steering wheel");
+		
 		SessionFactory  sessionFactory = new Configuration().configure().buildSessionFactory();
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
@@ -72,9 +74,20 @@ public class HibernateTest {
 //		session.save(vehicle);
 //		session.save(vehicle2);
 		
-		session.save(vehicle);
-		session.save(bike);
-		session.save(fourWheeler);
+//		session.save(vehicle);
+//		session.save(bike);
+//		session.save(fourWheeler);
+//		for(int i = 0; i < 10; i++) {
+//			UserDetails user = new UserDetails();
+//			user.setUserName("User "+(i+1));
+//			session.save(user);
+//		}
+		
+		UserDetails userDetails = (UserDetails) session.get(UserDetails.class, 4);
+		System.out.println("User name retrieved >> " + userDetails.getUserName());
+		userDetails.setUserName("Update this user");
+		session.update(userDetails);
+//		session.delete(userDetails);
 		session.getTransaction().commit();
 		
 		session.close();

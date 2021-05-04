@@ -86,8 +86,8 @@ public class UserDetails {
 //	@ManyToMany(mappedBy="user")
 //	@ManyToMany
 //	private Collection<Vehicle> vehicle = new ArrayList<>();
-	@OneToMany(cascade=CascadeType.ALL)	// Cascade effect PERSIST = addition, REMOVE = delete
-	private Collection<Vehicle> vehicle = new ArrayList<>();
+//	@OneToMany(cascade=CascadeType.ALL)	// Cascade effect PERSIST = addition, REMOVE = delete
+//	private Collection<Vehicle> vehicle = new ArrayList<>();
 	public int getUserId() {
 		return userId;
 	}
@@ -136,12 +136,10 @@ public class UserDetails {
 //	public void setVehicle(Vehicle vehicle) {
 //		this.vehicle = vehicle;
 //	}
-	public Collection<Vehicle> getVehicle() {
-		return vehicle;
-	}
-	public void setVehicle(Collection<Vehicle> vehicle) {
-		this.vehicle = vehicle;
-	}
-	
-	
+//	public Collection<Vehicle> getVehicle() {
+//		return vehicle;
+//	}
+//	public void setVehicle(Collection<Vehicle> vehicle) {
+//		this.vehicle = vehicle;
+//	}
 }
