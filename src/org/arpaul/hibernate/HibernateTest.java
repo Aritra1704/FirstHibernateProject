@@ -99,21 +99,34 @@ public class HibernateTest {
 //		query.setMaxResults(4);
 //		List<UserDetails> users = (List<UserDetails>) query.list();
 		
-		Query query = session.createQuery("select userName from UserDetails");// append the query  where userId > 5
-		query.setFirstResult(5);// Pagination concepts
-		query.setMaxResults(4);
-		List<String> users = (List<String>) query.list();
+		// select statement can be used for the only required fields
+		// but then the List doesnt stay as UserDetails it becomes List of String or List of List of String if multiple strings are fetched
+//		Query query = session.createQuery("select userName from UserDetails");
+//		query.setFirstResult(5);// Pagination concepts
+//		query.setMaxResults(4);
+//		List<String> users = (List<String>) query.list();
+		
+		int minUserId = 5;
+		String userName = "User 10";
+//		Query query = session.createQuery("from UserDetails where userId > ?1 and userName = ?2");
+//		query.setInteger(1, minUserId);
+//		query.setString(2, userName);
+		
+		Query query = session.createQuery("from UserDetails where userId > :userId and userName = :userName");
+		query.setInteger("userId", minUserId);
+		query.setString("userName", userName);
+		List<UserDetails> users = (List<UserDetails>) query.list();
 		session.getTransaction().commit();
 		
 		session.close();// User object becomes detached, its no more tracked by hibernate.
 		
-//		for(UserDetails userDetail : users) {
-//			System.out.println(userDetail.getUserName());	
-//		}
-		
-		for(String userDetail : users) {
-			System.out.println(userDetail);	
+		for(UserDetails userDetail : users) {
+			System.out.println(userDetail.getUserName());	
 		}
+		
+//		for(String userDetail : users) {
+//			System.out.println(userDetail);	
+//		}
 //		user = null;
 //		session = sessionFactory.openSession();
 //		session.beginTransaction();
