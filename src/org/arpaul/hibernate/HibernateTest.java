@@ -94,13 +94,26 @@ public class HibernateTest {
 //		session.save(user); // User object becomes persistent
 //		user.setUserName("Updated user"); // User object is tracked by hibernate once save is complete
 		
-		Query query = session.createQuery("from UserDetails where userId > 5");
-		List users = query.list();
+//		Query query = session.createQuery("from UserDetails");// append the query  where userId > 5
+//		query.setFirstResult(5);// Pagination concepts
+//		query.setMaxResults(4);
+//		List<UserDetails> users = (List<UserDetails>) query.list();
+		
+		Query query = session.createQuery("select userName from UserDetails");// append the query  where userId > 5
+		query.setFirstResult(5);// Pagination concepts
+		query.setMaxResults(4);
+		List<String> users = (List<String>) query.list();
 		session.getTransaction().commit();
 		
 		session.close();// User object becomes detached, its no more tracked by hibernate.
 		
-		System.out.println("User list size: "+users.size());
+//		for(UserDetails userDetail : users) {
+//			System.out.println(userDetail.getUserName());	
+//		}
+		
+		for(String userDetail : users) {
+			System.out.println(userDetail);	
+		}
 //		user = null;
 //		session = sessionFactory.openSession();
 //		session.beginTransaction();
