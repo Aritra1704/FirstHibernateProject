@@ -36,6 +36,7 @@ import org.hibernate.annotations.Type;
 @Entity
 //@Entity (name="USER_DETAILS")
 @Table (name="USER_DETAILS")
+@org.hibernate.annotations.Entity(selectBeforeUpdate=true)// checks and update only if something is modified in a transient object
 public class UserDetails {
 	
 	@Id	// Cannot be used if id is a object, need to use @EmbeddedId

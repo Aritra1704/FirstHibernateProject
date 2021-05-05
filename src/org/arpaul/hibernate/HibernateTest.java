@@ -2,11 +2,13 @@ package org.arpaul.hibernate;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.javabrains.arpaul.dto.Address;
 import org.javabrains.arpaul.dto.FourWheeler;
 import org.javabrains.arpaul.dto.TwoWheeler;
@@ -16,8 +18,6 @@ import org.javabrains.arpaul.dto.Vehicle;
 public class HibernateTest {
 
 	public static void main(String[] args) {
-//		UserDetails user = new UserDetails();
-//		user.setUserName("Aritra");
 //		Address homeAddress = new Address();
 //		homeAddress.setState("West bengal");
 //		homeAddress.setCity("Kolkata");
@@ -64,6 +64,8 @@ public class HibernateTest {
 //		fourWheeler.setVehicleName("Car");
 //		fourWheeler.setSteeringWheel("Steering wheel");
 		
+		UserDetails user = new UserDetails();
+		user.setUserName("Aritra"); // A Transient object is created
 		
 		SessionFactory  sessionFactory = new Configuration().configure().buildSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -78,20 +80,27 @@ public class HibernateTest {
 //		session.save(bike);
 //		session.save(fourWheeler);
 //		for(int i = 0; i < 10; i++) {
-//			UserDetails user = new UserDetails();
-//			user.setUserName("User "+(i+1));
-//			session.save(user);
+//			UserDetails userDetails = new UserDetails();
+//			userDetails.setUserName("User "+(i+1));
+//			session.save(userDetails);
 //		}
 		
-		UserDetails userDetails = (UserDetails) session.get(UserDetails.class, 4);
-		System.out.println("User name retrieved >> " + userDetails.getUserName());
-		userDetails.setUserName("Update this user");
-		session.update(userDetails);
+//		UserDetails userDetails = (UserDetails) session.get(UserDetails.class, 4);
+//		System.out.println("User name retrieved >> " + userDetails.getUserName());
+//		userDetails.setUserName("Update this user");
+//		session.update(userDetails);
 //		session.delete(userDetails);
+		
+//		session.save(user); // User object becomes persistent
+//		user.setUserName("Updated user"); // User object is tracked by hibernate once save is complete
+		
+		Query query = session.createQuery("from UserDetails where userId > 5");
+		List users = query.list();
 		session.getTransaction().commit();
 		
-		session.close();
+		session.close();// User object becomes detached, its no more tracked by hibernate.
 		
+		System.out.println("User list size: "+users.size());
 //		user = null;
 //		session = sessionFactory.openSession();
 //		session.beginTransaction();
