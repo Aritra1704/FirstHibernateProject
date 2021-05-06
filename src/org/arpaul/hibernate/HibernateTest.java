@@ -5,9 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.javabrains.arpaul.dto.Address;
 import org.javabrains.arpaul.dto.FourWheeler;
@@ -119,10 +121,18 @@ public class HibernateTest {
 		
 //		Query query = session.getNamedQuery("UserDetails.byId");
 //		query.setInteger(0, 2);
-		Query query = session.getNamedQuery("UserDetails.byName");
-		query.setString(0, "User 7");
+//		Query query = session.getNamedQuery("UserDetails.byName");
+//		query.setString(0, "User 7");
+//		session.getTransaction().commit();
+//		List<UserDetails> users = (List<UserDetails>) query.list();
+		
+		Criteria criteria = session.createCriteria(UserDetails.class);
+		criteria
+			.add(Restrictions.or(Restrictions.between("userId", 5, 10), Restrictions.like("userName", "User %")))
+			.add(Restrictions.eq("userName", "User 10"))
+			.add(Restrictions.ge("userId", 5));// chaining of multiple criteria is allowed
 		session.getTransaction().commit();
-		List<UserDetails> users = (List<UserDetails>) query.list();
+		List<UserDetails> users = (List<UserDetails>) criteria.list();
 		session.close();// User object becomes detached, its no more tracked by hibernate.
 		
 		for(UserDetails userDetail : users) {
