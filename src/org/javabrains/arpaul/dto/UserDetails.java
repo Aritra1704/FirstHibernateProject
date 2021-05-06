@@ -22,6 +22,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -34,6 +36,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @Entity
+@NamedQuery(name="UserDetails.byId", query="from UserDetails where userId = ?0") // HQL pattern
+@NamedNativeQuery(name="UserDetails.byName", query="SELECT * FROM user_details WHERE username=?0", resultClass=UserDetails.class) // Native query
 //@Entity (name="USER_DETAILS")
 @Table (name="USER_DETAILS")
 @org.hibernate.annotations.Entity(selectBeforeUpdate=true)// checks and update only if something is modified in a transient object

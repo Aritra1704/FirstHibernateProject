@@ -112,12 +112,17 @@ public class HibernateTest {
 //		query.setInteger(1, minUserId);
 //		query.setString(2, userName);
 		
-		Query query = session.createQuery("from UserDetails where userId > :userId and userName = :userName");
-		query.setInteger("userId", minUserId);
-		query.setString("userName", userName);
-		List<UserDetails> users = (List<UserDetails>) query.list();
-		session.getTransaction().commit();
+//		Query query = session.createQuery("from UserDetails where userId > :userId and userName = :userName");
+//		query.setInteger("userId", minUserId);
+//		query.setString("userName", userName);
+//		List<UserDetails> users = (List<UserDetails>) query.list();
 		
+//		Query query = session.getNamedQuery("UserDetails.byId");
+//		query.setInteger(0, 2);
+		Query query = session.getNamedQuery("UserDetails.byName");
+		query.setString(0, "User 7");
+		session.getTransaction().commit();
+		List<UserDetails> users = (List<UserDetails>) query.list();
 		session.close();// User object becomes detached, its no more tracked by hibernate.
 		
 		for(UserDetails userDetail : users) {
