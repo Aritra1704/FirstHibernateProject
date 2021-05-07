@@ -135,18 +135,22 @@ public class HibernateTest {
 //			.add(Restrictions.eq("userName", "User 10"))
 //			.add(Restrictions.ge("userId", 5));// chaining of multiple criteria is allowed
 		
-		Criteria criteria = session.createCriteria(UserDetails.class)
-//				.setProjection(Projections.count("userId"))
-				.addOrder(Order.desc("userId"));
-//				.setProjection(Projections.property("userId"));
+//		Criteria criteria = session.createCriteria(UserDetails.class)
+////				.setProjection(Projections.count("userId"))
+//				.addOrder(Order.desc("userId"));
+////				.setProjection(Projections.property("userId"));
+//		session.getTransaction().commit();
+//		List<UserDetails> users = (List<UserDetails>) criteria.list();
 		
+		UserDetails userDetails = (UserDetails) session.get(UserDetails.class, 1);
+		
+		UserDetails userDetails2 = (UserDetails) session.get(UserDetails.class, 1);// Perform 1st level cache doesn't call the DB
 		session.getTransaction().commit();
-		List<UserDetails> users = (List<UserDetails>) criteria.list();
 		session.close();// User object becomes detached, its no more tracked by hibernate.
 		
-		for(UserDetails userDetail : users) {
-			System.out.println(userDetail.getUserName());	
-		}
+//		for(UserDetails userDetail : users) {
+//			System.out.println(userDetail.getUserName());	
+//		}
 		
 //		for(String userDetail : users) {
 //			System.out.println(userDetail);	
@@ -158,6 +162,13 @@ public class HibernateTest {
 //		System.out.println("User name retrieved >> " + user.getUserName());
 //		session.close();// If session is closed before fetching collection then fetchtype needs to be eager
 //		System.out.println("User List of Addresses >> " + user.getListOfAddress().size());
+		
+		Session session2 = sessionFactory.openSession();
+		session2.beginTransaction();
+		// Since session is closed 1st level cache is closed too, so select query runs again
+		UserDetails userDetails3 = (UserDetails) session2.get(UserDetails.class, 1);
+		session2.getTransaction().commit();
+		session2.close();
 	}
 
 }
