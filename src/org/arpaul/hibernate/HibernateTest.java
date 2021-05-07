@@ -166,6 +166,7 @@ public class HibernateTest {
 		Session session2 = sessionFactory.openSession();
 		session2.beginTransaction();
 		// Since session is closed 1st level cache is closed too, so select query runs again
+		/**Since 2nd level cache is setup now, this doesn't call anymore**/
 		UserDetails userDetails3 = (UserDetails) session2.get(UserDetails.class, 1);
 		session2.getTransaction().commit();
 		session2.close();

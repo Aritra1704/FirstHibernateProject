@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -31,14 +32,18 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 @Entity
-@NamedQuery(name="UserDetails.byId", query="from UserDetails where userId = ?0") // HQL pattern
-@NamedNativeQuery(name="UserDetails.byName", query="SELECT * FROM user_details WHERE username=?0", resultClass=UserDetails.class) // Native query
+//@NamedQuery(name="UserDetails.byId", query="from UserDetails where userId = ?0") // HQL pattern
+//@NamedNativeQuery(name="UserDetails.byName", query="SELECT * FROM user_details WHERE username=?0", resultClass=UserDetails.class) // Native query
 //@Entity (name="USER_DETAILS")
+@Cacheable // Informs hibernate that this Entitiy is cacheable
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
 @Table (name="USER_DETAILS")
 @org.hibernate.annotations.Entity(selectBeforeUpdate=true)// checks and update only if something is modified in a transient object
 public class UserDetails {
