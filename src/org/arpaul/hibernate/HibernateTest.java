@@ -9,6 +9,9 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.javabrains.arpaul.dto.Address;
@@ -126,11 +129,17 @@ public class HibernateTest {
 //		session.getTransaction().commit();
 //		List<UserDetails> users = (List<UserDetails>) query.list();
 		
-		Criteria criteria = session.createCriteria(UserDetails.class);
-		criteria
-			.add(Restrictions.or(Restrictions.between("userId", 5, 10), Restrictions.like("userName", "User %")))
-			.add(Restrictions.eq("userName", "User 10"))
-			.add(Restrictions.ge("userId", 5));// chaining of multiple criteria is allowed
+//		Criteria criteria = session.createCriteria(UserDetails.class);
+//		criteria
+//			.add(Restrictions.or(Restrictions.between("userId", 5, 10), Restrictions.like("userName", "User %")))
+//			.add(Restrictions.eq("userName", "User 10"))
+//			.add(Restrictions.ge("userId", 5));// chaining of multiple criteria is allowed
+		
+		Criteria criteria = session.createCriteria(UserDetails.class)
+//				.setProjection(Projections.count("userId"))
+				.addOrder(Order.desc("userId"));
+//				.setProjection(Projections.property("userId"));
+		
 		session.getTransaction().commit();
 		List<UserDetails> users = (List<UserDetails>) criteria.list();
 		session.close();// User object becomes detached, its no more tracked by hibernate.
