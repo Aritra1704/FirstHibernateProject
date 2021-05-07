@@ -142,9 +142,13 @@ public class HibernateTest {
 //		session.getTransaction().commit();
 //		List<UserDetails> users = (List<UserDetails>) criteria.list();
 		
-		UserDetails userDetails = (UserDetails) session.get(UserDetails.class, 1);
+//		UserDetails userDetails = (UserDetails) session.get(UserDetails.class, 1);
+//		
+//		UserDetails userDetails2 = (UserDetails) session.get(UserDetails.class, 1);// Perform 1st level cache doesn't call the DB
 		
-		UserDetails userDetails2 = (UserDetails) session.get(UserDetails.class, 1);// Perform 1st level cache doesn't call the DB
+		Query query = session.createQuery("from UserDetails user where user.userId = 1");
+		query.setCacheable(true);
+		List users = query.list();
 		session.getTransaction().commit();
 		session.close();// User object becomes detached, its no more tracked by hibernate.
 		
@@ -167,7 +171,12 @@ public class HibernateTest {
 		session2.beginTransaction();
 		// Since session is closed 1st level cache is closed too, so select query runs again
 		/**Since 2nd level cache is setup now, this doesn't call anymore**/
-		UserDetails userDetails3 = (UserDetails) session2.get(UserDetails.class, 1);
+//		UserDetails userDetails3 = (UserDetails) session2.get(UserDetails.class, 1);
+		
+		Query query2 = session2.createQuery("from UserDetails user where user.userId = 1");
+		query2.setCacheable(true);// this one checks if this query is already available, if yes use it or add to cache
+		List users2 = query2.list();
+		
 		session2.getTransaction().commit();
 		session2.close();
 	}

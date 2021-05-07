@@ -29,6 +29,7 @@
         <!-- <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property> -->
          <!-- Second-level cache  -->
         <property name="hibernate.cache.use_second_level_cache">true</property>
+        <property name="hibernate.cache.use_query_cache">true</property>
 		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</property>
 		<property name="hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</property>
 
